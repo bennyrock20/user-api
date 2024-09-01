@@ -1,0 +1,77 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of the Air tool
+bin/
+.air/
+
+# Local env files
+.env
+
+# Log files
+*.log
+
+# Dependency directories
+vendor/
+
+# Dependency files
+go.sum
+
+# IDE/editor specific files
+.vscode/
+.idea/
+*.swp
+
+# Docker specific files
+docker-compose.override.yml
+.dockerignore
+
+# Ignoring Go's build cache, modules, and test binaries
+/go/pkg/
+/go/bin/
+/go/src/
+/coverage.out
+
+# Ignoring coverage tool files
+coverage.out
+
+# Ignoring Air config backup (optional)
+.air.conf*
+
+# GoLand and IntelliJ IDEA specific files
+# User-specific stuff
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dataSources.types.xml
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/jarRepositories.xml
+.idea/**/file.template.settings.xml
+# File-based project format
+*.iws
+# IntelliJ
+out/
+# Sonarlint plugin
+.idea/**/sonarlint
+# Crashlytics plugin (for Android Studio and Intellij)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
