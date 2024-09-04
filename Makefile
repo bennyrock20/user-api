@@ -19,6 +19,10 @@ build: ## Bring up the Docker Compose services
 down: ## Take down the Docker Compose services
 	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down
 
+.PHONY: test
+test: ## Run all tests cases
+	go test ./...
+
 .PHONY: logs
 logs: ## Tail the logs for the Docker Compose services
 	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) logs -f

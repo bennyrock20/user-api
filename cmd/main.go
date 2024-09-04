@@ -8,6 +8,7 @@ import (
 	handler "taxi-service/internal/handlers"
 	"taxi-service/internal/models"
 	"taxi-service/internal/user"
+	"taxi-service/middlewares"
 )
 
 func main() {
@@ -19,31 +20,35 @@ func main() {
 	// Initialize database
 	db.InitDatabase(cfg)
 
-	//// Crear repositorios
 	userRepo := user.NewUserRepository(db.DB)
-	//
-	//// Crear servicios
 	userService := user.NewUserService(userRepo)
-	//
-	//// Crear handlers
 	userHandler := handler.NewUserHandler(userService)
-	//
-	router := gin.Default()
-	//
-	//// Rutas para Users
-	router.GET("/users", userHandler.ListUsers)
-	router.GET("/users/:id", userHandler.GetUser)
-	router.POST("/users", userHandler.CreateUser)
-	router.PUT("/users/:id", userHandler.UpdateUser)
-	router.DELETE("/users/:id", userHandler.DeleteUser)
+
+	// Routers
+	public := gin.Default()
+
+	// Public route
+	public.POST("/login", handler.LoginHandler)
+
+	// Protected routes
+	protected := public.Group("/api")
+	protected.Use(middlewares.AuthMiddleware())
+
+	log.Printf("CHekcing routes")
+
+	////  Users Routes
+	protected.GET("/users", userHandler.ListUsers)
+	protected.GET("/users/:id", userHandler.GetUser)
+	//protected.POST("/users", userHandler.CreateUser)
+	protected.PUT("/users/:id", userHandler.UpdateUser)
+	protected.DELETE("/users/:id", userHandler.DeleteUser)
 
 	// Migrate the schema
 	if err := db.DB.AutoMigrate(&models.User{}); err != nil {
 		log.Fatalf("failed to migrate database: %v", err)
 	}
-	// Iniciar servidor
 	log.Println("Iniciando servidor en :8080")
-	if err := router.Run(":8080"); err != nil {
+	if err := public.Run(":8080"); err != nil {
 		log.Fatalf("No se pudo iniciar el servidor: %v", err)
 	}
 

@@ -2,8 +2,7 @@ package config
 
 import (
 	"fmt"
-	"log"
-	"os"
+	"taxi-service/utils"
 )
 
 type Config struct {
@@ -11,24 +10,14 @@ type Config struct {
 }
 
 func LoadConfig() Config {
-	dbHost := getEnv("DB_HOST", "localhost")
-	dbUser := getEnv("DB_USER", "postgres")
-	dbPassword := getEnv("DB_PASSWORD", "postgres")
-	dbName := getEnv("DB_NAME", "postgres")
-	dbPort := getEnv("DB_PORT", "5432")
-
-	//print db config
-	log.Println(dbHost)
+	dbHost := utils.GetEnv("DB_HOST", "localhost")
+	dbUser := utils.GetEnv("DB_USER", "postgres")
+	dbPassword := utils.GetEnv("DB_PASSWORD", "postgres")
+	dbName := utils.GetEnv("DB_NAME", "postgres")
+	dbPort := utils.GetEnv("DB_PORT", "5432")
 
 	return Config{
 		DatabaseDSN: fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
 			dbHost, dbUser, dbPassword, dbName, dbPort),
 	}
-}
-
-func getEnv(key, defaultValue string) string {
-	if value, exists := os.LookupEnv(key); exists {
-		return value
-	}
-	return defaultValue
 }
