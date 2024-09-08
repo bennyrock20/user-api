@@ -3,12 +3,15 @@ package middlewares
 import (
 	"fmt"
 	"net/http"
+	"taxi-service/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var JWTSecret = []byte("your-secret-key")
+var secretKey = utils.GetEnv("JWT_SECRET_KEY", "")
+
+var JWTSecret = []byte(secretKey)
 
 // Middleware to check JWT
 func JWTAuthMiddleware() gin.HandlerFunc {

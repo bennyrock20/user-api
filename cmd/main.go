@@ -29,7 +29,9 @@ func main() {
 	public := gin.Default()
 
 	// Public route
-	// public.POST("/login", handler.LoginHandler)
+	public.GET("/about/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "Hellow World"})
+	})
 
 	// Protected routes
 	protected := public.Group("/api/v1")
