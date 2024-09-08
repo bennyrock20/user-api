@@ -36,9 +36,14 @@ restart: ## Restart the Docker Compose services
 clean: ## Clean up all resources
 	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down -v --rmi all --remove-orphans
 
+.PHONY: jwt
+jwt:
+	docker compose run web go run main.go jwt
+	
 .PHONY: help
 help: ## Show this help
 	@echo "Usage: make [target] [COMPOSE_FILE=your-compose-file.yml] [DOCKER_COMPOSE=your-compose-command]"
 	@echo ""
 	@echo "Targets:"
 	@awk '/^# Targets/,0' $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:' | sort | awk -F ':
+

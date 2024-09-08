@@ -3,7 +3,7 @@
   # Output path for the binary that will be executed
   bin = "bin/main"
   # Command to compile the code
-  cmd = "go build -o ./bin/main ./cmd/main.go"
+  cmd = "go build -o ./bin/main ./main.go"
   # Directories or files that trigger a reload
   include_ext = ["go", "tpl", "tmpl", "html"]
   exclude_dir = ["vendor", "bin"]

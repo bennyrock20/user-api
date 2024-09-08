@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"log"
@@ -9,10 +9,13 @@ import (
 	"taxi-service/internal/models"
 	"taxi-service/middlewares"
 
+	"fmt"
+
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/cobra"
 )
 
-func main() {
+func run_server() {
 
 	cfg := config.LoadConfig()
 
@@ -53,4 +56,20 @@ func main() {
 		log.Fatalf("No se pudo iniciar el servidor: %v", err)
 	}
 
+}
+
+// serveCmd represents the serve command
+var serveCmd = &cobra.Command{
+	Use:   "serve",
+	Short: "Start the web server using Gin",
+	Long:  `This command starts the Gin web server to handle HTTP requests.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Starting the Gin web server...")
+
+		run_server()
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(serveCmd)
 }

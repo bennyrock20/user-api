@@ -48,15 +48,3 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
-
-// func main() {
-// 	r := gin.Default()
-
-// 	// Protect your routes with JWT middleware
-// 	r.GET("/protected", JWTAuthMiddleware(), func(c *gin.Context) {
-// 		userID, _ := c.Get("userID")
-// 		c.JSON(http.StatusOK, gin.H{"message": "Welcome", "userID": userID})
-// 	})
-
-// 	r.Run(":8080")
-// }
