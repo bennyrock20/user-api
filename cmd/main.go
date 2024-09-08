@@ -1,14 +1,15 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 	"taxi-service/config"
 	"taxi-service/internal/db"
-	handler "taxi-service/internal/handlers"
+
 	"taxi-service/internal/models"
-	"taxi-service/internal/user"
 	"taxi-service/middlewares"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -20,28 +21,26 @@ func main() {
 	// Initialize database
 	db.InitDatabase(cfg)
 
-	userRepo := user.NewUserRepository(db.DB)
-	userService := user.NewUserService(userRepo)
-	userHandler := handler.NewUserHandler(userService)
+	// userRepo := user.NewUserRepository(db.DB)
+	// userService := user.NewUserService(userRepo)
+	// userHandler := handler.NewUserHandler(userService)
 
 	// Routers
 	public := gin.Default()
 
 	// Public route
-	public.POST("/login", handler.LoginHandler)
+	// public.POST("/login", handler.LoginHandler)
 
 	// Protected routes
-	protected := public.Group("/api")
-	protected.Use(middlewares.AuthMiddleware())
+	protected := public.Group("/api/v1")
 
-	log.Printf("CHekcing routes")
+	// Apply middleware
+	protected.Use(middlewares.JWTAuthMiddleware())
 
-	////  Users Routes
-	protected.GET("/users", userHandler.ListUsers)
-	protected.GET("/users/:id", userHandler.GetUser)
-	//protected.POST("/users", userHandler.CreateUser)
-	protected.PUT("/users/:id", userHandler.UpdateUser)
-	protected.DELETE("/users/:id", userHandler.DeleteUser)
+	protected.GET("/me", func(c *gin.Context) {
+		userID, _ := c.Get("userID")
+		c.JSON(http.StatusOK, gin.H{"message": "Welcome", "userID": userID})
+	})
 
 	// Migrate the schema
 	if err := db.DB.AutoMigrate(&models.User{}); err != nil {
